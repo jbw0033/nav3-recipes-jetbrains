@@ -28,6 +28,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
@@ -55,7 +56,9 @@ import com.example.nav3recipes.theme.AppTheme
 internal class Recipe(
     val name: String,
     val activityFun: @Composable () -> Unit
-)
+) {
+    override fun toString() = name
+}
 
 private val Root = Recipe("Root", { })
 
@@ -116,7 +119,7 @@ fun App(
 }
 
 @Composable
-internal expect fun BrowserIntegration(backStack: SnapshotStateList<Recipe>)
+internal expect fun BrowserIntegration()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -135,7 +138,7 @@ fun RecipePickerActivity() {
         contentWindowInsets = WindowInsets.systemBars.exclude(WindowInsets.navigationBars),
     ) { innerPadding ->
         val backStack = remember { mutableStateListOf(Root) }
-        BrowserIntegration(backStack)
+        BrowserIntegration()
         NavDisplay(
             modifier = Modifier
                 .fillMaxSize()
@@ -182,7 +185,9 @@ private fun RecipeList(
                         headlineContent = {
                             Text(
                                 text = item.name,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         },
                         modifier = Modifier.height(48.dp),
