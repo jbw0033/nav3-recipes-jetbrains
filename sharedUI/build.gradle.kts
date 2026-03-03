@@ -11,7 +11,7 @@ plugins {
 
 kotlin {
     android {
-        namespace = "com.example.nav3recipes"
+        namespace = "com.example.nav3recipes.common"
         compileSdk = 36
         minSdk = 23
         androidResources.enable = true
